@@ -24,7 +24,7 @@ class Customer:
         drink_to_find = pub.get_drink_by_name(drink_name)
         sober = pub.check_customer_drunkenness(self)
         of_age = pub.check_customer_of_age(self)
-        if drink_to_find and sober and of_age:
+        if drink_to_find and sober and of_age and pub.stock[drink_name] >0:
             self.remove_money(drink_to_find.price)
             pub.add_to_till(drink_to_find.price)
             self.increase_drunkenness(drink_to_find.alcohol_level)
@@ -33,9 +33,10 @@ class Customer:
         self.drunkenness -= rejuvenation_level
 
     def buy_food_from_pub(self, pub, food_name):
-        food = pub.get_food_by_name(food_name)
-        self.remove_money(food.price)
-        pub.add_to_till(food.price)
-        self.decrease_drunkenness(food.rejuvenation_level)
+        food_to_find = pub.get_food_by_name(food_name)
+        if pub.stock[food_name] > 0 and food_to_find:
+            self.remove_money(food_to_find.price)
+            pub.add_to_till(food_to_find.price)
+            self.decrease_drunkenness(food_to_find.rejuvenation_level)
         
         
